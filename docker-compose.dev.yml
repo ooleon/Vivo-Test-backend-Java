@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+    meu-backend:
+        image: ooleon/vivo-test-backend:1
+        ports:
+            - "8080:8080"
+    postgres:
+        image: postgres:15.2
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_DB=postgres
+            - POSTGRES_PASSWORD=postgres
+        ports:
+            - "5432:5432"
