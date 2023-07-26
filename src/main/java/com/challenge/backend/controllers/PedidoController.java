@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.challenge.backend.entities.Pedido;
-import com.challenge.backend.entities.PedidoProdutos;
+import com.challenge.backend.entities.DetalhePedido;
 import com.challenge.backend.entities.ProductsPojo;
 import com.challenge.backend.entities.UserPojo;
 import com.challenge.backend.services.ConsumerRestService;
@@ -36,7 +36,7 @@ public class PedidoController {
 
 
 	@GetMapping("/pedidoProdutos")
-	public List<PedidoProdutos> pedidoProdutos() {
+	public List<DetalhePedido> pedidoProdutos() {
 		return this.pedidoService.getPedidoProdutos();
 	}
 	

@@ -10,7 +10,6 @@ public class BackendApplication {
 	private static final Logger log = LoggerFactory.getLogger(BackendApplication.class);
 
 	public static void main(String[] args) {
-		log.info(" paso");
 		SpringApplication.run(BackendApplication.class, args);
 	}
 

@@ -16,11 +16,14 @@ import jakarta.persistence.Table;
 */
 import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
 
 @Entity
 @Table(name = "pedido_produtos", schema = "public")
-public class PedidoProdutos {
+public class DetalhePedido {
 	
 	@Id
 //    @GeneratedValue(strategy=SEQUENCE, generator="pedido_artigo_id_seq")
@@ -30,18 +33,30 @@ public class PedidoProdutos {
 
     public Long getId() { return id; }
     
+
+	
+    private UUID pedidoid_fk;
+
+    @ManyToOne
+    private Pedido pedido;
+
     
-    private String pedidoid_fk;
     //private UUID pedidoid_fk;
     private int produtoid;
     private double quantidade;
     private double precounidade;
 
-	public String getPedidoid_fk() {
+	public UUID getPedidoid_fk() {
 		return pedidoid_fk;
 	}
-	public void setPedidoid_fk(String pedidoid_fk) {
+	public void setPedidoid_fk(UUID pedidoid_fk) {
 		this.pedidoid_fk = pedidoid_fk;
+	}
+	public Pedido getPedido() {
+		return pedido;
+	}
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
 	}
 	public int getProdutoid() {
 		return produtoid;
@@ -61,11 +76,14 @@ public class PedidoProdutos {
 	public void setPrecounidade(double precounidade) {
 		this.precounidade = precounidade;
 	}
+	public void setId(Long id) {
+		this.id = id;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("PedidoProdutos [pedidoid_fk=");
-		builder.append(pedidoid_fk);
+		builder.append("DetalhePedido [id=");
+		builder.append(id);
 		builder.append(", produtoid=");
 		builder.append(produtoid);
 		builder.append(", quantidade=");
@@ -75,6 +93,8 @@ public class PedidoProdutos {
 		builder.append("]");
 		return builder.toString();
 	}
+
+
 
 
 	

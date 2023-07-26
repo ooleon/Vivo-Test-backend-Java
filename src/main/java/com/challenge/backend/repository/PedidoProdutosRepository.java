@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository;
 import com.challenge.backend.entities.*;
 
 @Repository
-public interface PedidoProdutosRepository extends CrudRepository<PedidoProdutos, Long> {
+public interface PedidoProdutosRepository extends CrudRepository<DetalhePedido, Long> {
 
-	List<PedidoProdutos> findAll();
+	List<DetalhePedido> findAll();
 
 /*
     Optional<Pedido> findById(Long table1Id);

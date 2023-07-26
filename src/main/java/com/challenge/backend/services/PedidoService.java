@@ -3,7 +3,9 @@ package com.challenge.backend.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
+import org.hibernate.type.descriptor.java.UUIDJavaType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,11 +13,13 @@ import org.springframework.context.annotation.*;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 import com.challenge.backend.entities.*;
 import com.challenge.backend.repository.PedidoProdutosRepository;
 import com.challenge.backend.repository.PedidoRepository;
 import com.challenge.backend.repository.PedidoUUIDRepository;
+import com.challenge.backend.util.EstadoPedido;
 
 //@Configuration
 @PropertySource("classpath:/application.properties")
@@ -32,16 +36,19 @@ public class PedidoService {
 	@Autowired
 	PedidoProdutosRepository pedidoProdutosRepository;
 
-	public List<PedidoProdutos> getPedidoProdutos() {
+	public List<DetalhePedido> getPedidoProdutos() {
 		
 		return pedidoProdutosRepository.findAll();
 	}
 
 	public List<Pedido> getPedidos() {
-		List<Pedido> l = pedidoRepository.findAll();
-		return l;
+		
+		return pedidoRepository.findAll();
 	}
 
+	public Pedido salvar(Pedido pedido) {
+		return pedidoRepository.save(pedido);
+	}
 
 
 /*
