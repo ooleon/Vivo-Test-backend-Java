@@ -9,20 +9,28 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.challenge.backend.services.PedidoService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class backendController {
+public class BackendController {
 
 	@Autowired
 	Environment env;
 
-	@GetMapping("/")
+	
+	@GetMapping("")
+	public String pedidoRaiz() {
+		return " deve colocar "
+				+ "<a href=\'http://localhost:8080/orders/'> http://localhost:8080/orders/</a>";
+	}
+
+	@GetMapping("/backend")
 	public String PricelineInicial() {
-		StringBuilder sb = new StringBuilder(
-				"la religion es para los que tienen miedo de ir al infierno, <br> la espiritualidad es para quienes ya estuvieron allí <br>");
+		StringBuilder sb = new StringBuilder();
 		sb.append(getUrl_Users());
 		sb.append(userGetAsListHashMap());
 

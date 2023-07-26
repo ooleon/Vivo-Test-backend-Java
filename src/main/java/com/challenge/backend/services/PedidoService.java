@@ -13,15 +13,37 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import com.challenge.backend.entities.*;
+import com.challenge.backend.repository.PedidoProdutosRepository;
+import com.challenge.backend.repository.PedidoRepository;
+import com.challenge.backend.repository.PedidoUUIDRepository;
 
 //@Configuration
 @PropertySource("classpath:/application.properties")
 @Service
-public class Table1Service {
-	    private final Logger log = LoggerFactory.getLogger(Table1Service.class);
+public class PedidoService {
+	    private final Logger log = LoggerFactory.getLogger(PedidoService.class);
 
 	@Autowired
 	Environment env;
+
+	@Autowired
+	PedidoRepository pedidoRepository;
+
+	@Autowired
+	PedidoProdutosRepository pedidoProdutosRepository;
+
+	public List<PedidoProdutos> getPedidoProdutos() {
+		
+		return pedidoProdutosRepository.findAll();
+	}
+
+	public List<Pedido> getPedidos() {
+		List<Pedido> l = pedidoRepository.findAll();
+		return l;
+	}
+
+
+
 /*
 	public List<UserAws> userAwsGetAsEntityList() {
 		RestTemplate restTemplate = new RestTemplate();
@@ -72,4 +94,7 @@ public class Table1Service {
 		return response.getBody();
 	}
 */
+
+	
+	
 }
