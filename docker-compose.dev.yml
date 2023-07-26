@@ -2,7 +2,7 @@ version: '3'
 
 services:
     meu-backend:
-        image: ooleon/vivo-test-backend:1
+        image: openjdk:17-jdk-alpine3.14:1
         ports:
             - "8080:8080"
     postgres:

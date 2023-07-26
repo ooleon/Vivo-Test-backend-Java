@@ -96,8 +96,6 @@ public class Pedido {
 		builder.append(usuarioid);
 		builder.append(", estado=");
 		builder.append(estado);
-		builder.append(", detalles=");
-		builder.append(detalles.size());
 		builder.append("]");
 		return builder.toString();
 	}
