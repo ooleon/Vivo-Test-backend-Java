@@ -42,7 +42,7 @@ public class PedidoController {
 	@GetMapping("/pedidos")
 	@ResponseStatus(HttpStatus.OK)
 	public List<Pedido> pedidos() {
-		return this.pedidoService.getPedidos();
+		return this.pedidoService.findAll();
 	}
 
 	@GetMapping("/produtos")

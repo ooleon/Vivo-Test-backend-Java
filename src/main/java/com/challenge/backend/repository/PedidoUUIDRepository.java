@@ -21,6 +21,7 @@ import java.util.Optional;
 @NoRepositoryBean
 public interface PedidoUUIDRepository<Pedido, UUID> extends CrudRepository<Pedido, UUID> {
 
+	List<Pedido> findAll();
 
 	Optional<Pedido> findByUuid(UUID uuid);
 

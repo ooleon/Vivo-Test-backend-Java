@@ -3,7 +3,6 @@ package com.challenge.backend.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.hibernate.type.descriptor.java.UUIDJavaType;
@@ -26,34 +25,37 @@ import com.challenge.backend.util.EstadoPedido;
 @PropertySource("classpath:/application.properties")
 @Service
 @Transactional
-public class PedidoService {
-	    private final Logger log = LoggerFactory.getLogger(PedidoService.class);
+public class DetalhePedidoService {
+	    private final Logger log = LoggerFactory.getLogger(DetalhePedidoService.class);
 
 	@Autowired
 	Environment env;
 
 	@Autowired
-	PedidoRepository pedidoRepository;
+	DetalhePedidoRepository detalhePedidoRepository;
 
-	public List<Pedido> findByEstado(EstadoPedido estadoPedido) {		
-		return pedidoRepository.findByEstado(estadoPedido.etiqueta);
-	}
 
-	public Optional<Pedido> findById(UUID uuid) {
+
+	public List<DetalhePedido> findByPedido(Pedido pedido) {
 		
-		return pedidoRepository.findById(uuid);
+		return detalhePedidoRepository.findByPedido(pedido);
 	}
 
-	public Optional<Pedido> findByUuid(UUID uuid) {
-		return pedidoRepository.findByUuid(uuid);
+
+	public void delete(DetalhePedido detalhePedido) {
+		detalhePedidoRepository.delete(detalhePedido);
 	}
 
-	public Pedido save(Pedido pedido) {
-		return pedidoRepository.save(pedido);
+	public DetalhePedido save(DetalhePedido detalhePedido) {
+		return detalhePedidoRepository.save(detalhePedido);
 	}
 
-	public List<Pedido> findAll() {		
-		return pedidoRepository.findAll();
+	public List<DetalhePedido> getAll() {
+		
+		return detalhePedidoRepository.findAll();
 	}
 
+
+	
+	
 }

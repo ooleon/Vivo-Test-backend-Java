@@ -65,8 +65,8 @@ class PedidoServiceTest {
 		
 		when(pedidoRepository.save(any())).thenReturn(pMock);
 		when(pedidoRepository.findAll()).thenReturn(listaMock);
-		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
-		assertTrue(pedidoService.getPedidos().size()>0);
+		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
+		assertTrue(pedidoService.findAll().size()>0);
 	}
 
 	

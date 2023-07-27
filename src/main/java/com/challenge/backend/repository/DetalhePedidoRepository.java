@@ -10,7 +10,6 @@ import org.springframework.stereotype.Repository;
 //import aws.model.Table1;
 import com.challenge.backend.entities.*;
 
-
 @Repository
 public interface DetalhePedidoRepository extends CrudRepository<DetalhePedido, Long> {
 

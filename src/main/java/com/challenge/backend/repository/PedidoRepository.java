@@ -20,7 +20,6 @@ import java.util.Optional;
 @Repository
 public interface PedidoRepository extends PedidoUUIDRepository<Pedido, UUID> {
 
-	List<Pedido> findAll();
 
 	Optional<Pedido> findIdByUuid(UUID uuid);
 	List<Pedido> findByEstado(String estado);

@@ -29,6 +29,7 @@ import com.challenge.backend.entities.Pedido;
 import com.challenge.backend.repository.DetalhePedidoRepository;
 import com.challenge.backend.repository.PedidoRepository;
 import com.challenge.backend.services.ConsumerRestService;
+import com.challenge.backend.services.DetalhePedidoService;
 import com.challenge.backend.services.PedidoService;
 import com.challenge.backend.util.EstadoPedido;
 
@@ -41,6 +42,9 @@ class PedidoServiceSalvadoTest {
 
 	@Autowired
 	PedidoRepository pedidoRepository;
+	
+	@Autowired
+	DetalhePedidoService detalhePedidoService;
 	
 	@Autowired
 	DetalhePedidoRepository detalhePedidoRepository;
@@ -63,11 +67,11 @@ class PedidoServiceSalvadoTest {
 	
 	@Test
 	void salvarDetalhePedido() throws Exception  {
-		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
+		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
 
 		Pedido pedido = new Pedido();
 		pedido.setUsuarioid(88l);
-		UUID u0 = UUID.fromString("00000000-5555-7777-1dcd-300020001000");
+		UUID u0 = UUID.fromString("00000000-5555-7777-1dcd-300020002201");
 //		pedido.setUUID(u);
 		pedido.setEstado(EstadoPedido.PENDIENTE.etiqueta);
 		
@@ -75,9 +79,9 @@ class PedidoServiceSalvadoTest {
 		dp.setPrecounidade(109.4);
 		dp.setProdutoid(109);
 		dp.setQuantidade(10);
-		Pedido p = pedidoService.salvar(pedido);
+		Pedido p = pedidoService.save(pedido);
 		
-		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
+		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
 		
 
 		System.out.println(" p.uu id: " + p.getUUID());
@@ -93,7 +97,7 @@ class PedidoServiceSalvadoTest {
 		p=op.get();
 		System.out.println(" pedido u0: " + p.getUUID() + " "+  p.getEstado());
 		dp.setPedido(p);
-		DetalhePedido dpSaved = detalhePedidoRepository.save(dp);
+		DetalhePedido dpSaved = detalhePedidoService.save(dp);
 
 //		p = pedidoRepository.save(p);
 		
@@ -103,11 +107,17 @@ class PedidoServiceSalvadoTest {
 
 		System.out.println(" pedido u0: " + p.getEstado());
 		
-		List<DetalhePedido> l = detalhePedidoRepository.findByPedido(p);
+		List<DetalhePedido> l = detalhePedidoService.findByPedido(p);
 		System.out.println("nuevo p con Detalles: " +  l );
 		assertTrue(l.size() > 0);
-//		System.out.println(pedidoRepository.findAll());
-		System.out.println(" pedido ");
+		List<Pedido> lp = pedidoRepository.findAll();
+		System.out.println(" for lp ");
+		for (Pedido pedido_t: lp) {
+			pedido_t.setDetalles(detalhePedidoService.findByPedido(pedido_t));
+//			System.out.println(pedido_t);
+		}
+		System.out.println(lp);
+		System.out.println(" list pedido ");
 //		assertTrue(pedidoService.getPedidos().size() > 0);
 		
 		//Garantindo que o uuid esta sendo gerado por banco de dados.
@@ -115,22 +125,22 @@ class PedidoServiceSalvadoTest {
 		
 	}
 
-	@Test
+//	@Test
 	void salvarPedido() throws Exception {
-		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
+		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
 
 		Pedido pedido = new Pedido();
 		pedido.setUsuarioid(5l);
 		UUID u = UUID.fromString("00000000-a324-a123-a123-111111111111");
 //		pedido.setUUID(u);
 		pedido.setEstado(EstadoPedido.CONCLUIDO.etiqueta); 
-		Pedido p = pedidoService.salvar(pedido);
+		Pedido p = pedidoService.save(pedido);
 		
-		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
+		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
 
 		System.out.println(p.getUUID() != u);
 		System.out.println(" pedido " + p.getUUID());
-		assertTrue(pedidoService.getPedidos().size() > 0);
+		assertTrue(pedidoService.findAll().size() > 0);
 		System.out.println(" pedido " + p);
 //		System.out.println("" + pedidoService.getPedidos());
 

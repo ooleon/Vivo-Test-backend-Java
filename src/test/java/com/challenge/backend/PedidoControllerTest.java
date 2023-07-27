@@ -70,7 +70,7 @@ class PedidoControllerTest {
 		
 		when(pedidoRepository.save(any())).thenReturn(pMock);
 		when(pedidoRepository.findAll()).thenReturn(listaMock);
-		when(pedidoService.getPedidos()).thenReturn(listaMock);
+		when(pedidoService.findAll()).thenReturn(listaMock);
 		
 		log.info("Numero de reguistros Pedidos: " + pedidoController.pedidos().size());
 		String json=asJsonString(pedidoController.pedidos());
