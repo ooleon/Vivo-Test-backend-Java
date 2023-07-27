@@ -57,9 +57,9 @@ class PedidoServiceTest {
 	void listarPedido() { 
 		List<Pedido> listaMock = new ArrayList<Pedido>();
 		Pedido pMock = new Pedido();
-		pMock.usuarioid=5l;
-		pMock.uuid=UUID.fromString("00000000-a324-7123-a123-111111111111");
-		pMock.estado = EstadoPedido.PENDIENTE.etiqueta;
+		pMock.setUsuarioid(5l);
+
+		pMock.setEstado(EstadoPedido.PENDIENTE.etiqueta); ;
 		
 		listaMock.add(pMock);
 		

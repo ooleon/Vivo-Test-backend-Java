@@ -19,31 +19,14 @@ import java.util.Optional;
 
 //@Repository
 @NoRepositoryBean
-public interface PedidoUUIDRepository<Pedido, UUID> extends JpaRepository<Pedido, UUID> {
+public interface PedidoUUIDRepository<Pedido, UUID> extends CrudRepository<Pedido, UUID> {
 
-	List<Pedido> findAll();
-//	Optional<Pedido> findByUuid(UUID uuid);
-//
-//	Optional<Pedido> findIdByUuid(UUID uuid);
-	
-//    Optional<E> findByUuid(UUID uuid);
 
-//    Optional<ProjectId> findIdByUuid(UUID uuid);
-/*
-    default E findRequiredByUuid(String uuid) {
-        return findByUuid(UUID.fromString(uuid)).orElseThrow(() ->
-                new NoSuchElementException("No Element with UUID: <"+uuid+"> was found in Database"));
+	Optional<Pedido> findByUuid(UUID uuid);
+
+    default Optional<Pedido>  findRequiredByUuid(UUID uuid) {
+        return findByUuid( uuid );
     }
-
-    default long findIdRequiredByUuid(String uuid) {
-        return findIdByUuid(UUID.fromString(uuid)).orElseThrow(() ->
-                new NoSuchElementException("No Element with UUID: <"+uuid+"> was found in Database"))
-                .getId();
-    }
-}
-interface ProjectId {
-    long getId();
-}
-*/
+    
 
 }

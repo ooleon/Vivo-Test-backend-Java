@@ -18,6 +18,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
@@ -27,8 +28,8 @@ import java.util.*;
 public class DetalhePedido {
 
 	@Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @GeneratedValue(strategy = GenerationType.AUTO)
+//  @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
 
@@ -37,14 +38,16 @@ public class DetalhePedido {
 
 	
 
-//    @Column(name = "id", unique = true)
-    @ManyToOne
-    private Pedido pedido;
-
+    @ManyToOne ( fetch = FetchType.LAZY)
+    @JoinColumn(name = "pedido_id")
+    @JsonIgnore
+    public Pedido pedido;
     
-    //private UUID pedidoid_fk;
+    
     private int produtoid;
-    private double quantidade;
+    
+    private int quantidade;
+    
     private double precounidade;
 
 /*
@@ -58,22 +61,24 @@ public class DetalhePedido {
 	}
 */
 
+
 	public Pedido getPedido() {
 		return pedido;
 	}
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
+	
 	public int getProdutoid() {
 		return produtoid;
 	}
 	public void setProdutoid(int produtoid) {
 		this.produtoid = produtoid;
 	}
-	public double getQuantidade() {
+	public int getQuantidade() {
 		return quantidade;
 	}
-	public void setQuantidade(double quantidade) {
+	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
 	public double getPrecounidade() {
@@ -82,14 +87,29 @@ public class DetalhePedido {
 	public void setPrecounidade(double precounidade) {
 		this.precounidade = precounidade;
 	}
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	@Override
 	public String toString() {
-		return "{produtoid=" + produtoid + ", quantidade=" + quantidade + ", precounidade=" + precounidade + "}";
+	/*
+		return "{" + 
+				"produtoid=" + produtoid + 				
+				", quantidade=" + quantidade +
+				", precounidade=" + precounidade +
+				"}";
+		*/
+		return asJsonString(this);
 	}
 
+	public static String asJsonString(final Object obj) {
+	    try {
+	        return new ObjectMapper().writeValueAsString(obj);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    }
+	}
+
+
+	
 
 
 

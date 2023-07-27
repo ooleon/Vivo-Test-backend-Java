@@ -19,6 +19,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -37,24 +38,14 @@ public class Pedido {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true)
 	@UuidGenerator
-	public UUID uuid;
+	private UUID uuid;
 
 	
-	public Long usuarioid;
-	public String estado;
+	private Long usuarioid;
+	private String estado;
 
-/*	
-	@OneToMany     
-//	@ToStringExclude
-	@JsonIgnore     
-	@JoinTable(name = "Attache_Client_Association",            
-	joinColumns = @JoinColumn(name = "id"),          
-	inverseJoinColumns = @JoinColumn(name = "pedidoid_fk"))    
-	public List<Pedido> clientList;
-*/
-	
-//	@OneToMany(mappedBy = "pedidoid_fk")
-	@OneToMany
+	@OneToMany(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id")
 	private List<DetalhePedido> detalles;
 
 	
@@ -63,9 +54,6 @@ public class Pedido {
 		return this.uuid;
 	}
 
-	public void setUUID(UUID uUID) {
-		this.uuid = uUID;
-	}
 
 	public Long getUsuarioid() {
 		return usuarioid;
@@ -91,6 +79,7 @@ public class Pedido {
 		this.detalles = detalles;
 	}
 
+	
 	@Override
 	public String toString() {
 		return "{uuid=" + uuid +
@@ -98,8 +87,16 @@ public class Pedido {
 				", estado=" + estado + 
 				", detalles=" + detalles +
 				"}";
+//		return asJsonString(this);
 	}
 
+	public static String asJsonString(final Object obj) {
+	    try {
+	        return new ObjectMapper().writeValueAsString(obj);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    }
+	}
 
 
 

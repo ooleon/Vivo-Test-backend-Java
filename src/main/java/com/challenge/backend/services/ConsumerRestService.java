@@ -17,7 +17,6 @@ import org.springframework.web.client.RestTemplate;
 import com.challenge.backend.entities.*;
 import com.challenge.backend.repository.PedidoUUIDRepository;
 
-//@Configuration
 @PropertySource("classpath:/application.properties")
 @Service
 public class ConsumerRestService {
@@ -26,13 +25,6 @@ public class ConsumerRestService {
 	@Autowired
 	Environment env;
 
-	@Autowired
-	PedidoUUIDRepository pedidoRepository;
-
-	public List<Pedido> getPedidos() {
-
-		return pedidoRepository.findAll();
-	}
 
 	public List<UserPojo> getUsersList() {
 

@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.junit.jupiter.api.AfterEach;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.challenge.backend.controllers.PedidoController;
 import com.challenge.backend.entities.DetalhePedido;
@@ -60,72 +62,80 @@ class PedidoServiceSalvadoTest {
 
 	
 	@Test
-	void salvarDetalhePedido() {
+	void salvarDetalhePedido() throws Exception  {
 		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
 
 		Pedido pedido = new Pedido();
-		pedido.usuarioid = 88l;
-		UUID u0 = UUID.fromString("00000000-5555-7777-1dcd-300020001001");
-		UUID u = UUID.randomUUID();
-		System.out.println("   p.uuid: " + u);
-		pedido.uuid = u;
-		pedido.estado = EstadoPedido.CONCLUIDO.etiqueta;
+		pedido.setUsuarioid(88l);
+		UUID u0 = UUID.fromString("00000000-5555-7777-1dcd-300020001000");
+//		pedido.setUUID(u);
+		pedido.setEstado(EstadoPedido.PENDIENTE.etiqueta);
 		
 		DetalhePedido dp = new DetalhePedido();
 		dp.setPrecounidade(109.4);
 		dp.setProdutoid(109);
-		
+		dp.setQuantidade(10);
 		Pedido p = pedidoService.salvar(pedido);
 		
 		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
 		
 
-		System.out.println(" p.uuid: " + p.uuid);
-		dp.setPedido(p);
+		System.out.println(" p.uu id: " + p.getUUID());
+//		dp.setPedido(p);
 
 		List<DetalhePedido> ldp = new ArrayList<>();
 		ldp.add(dp);
 		p.setDetalles(ldp);
-		
-		p = pedidoService.salvar(p);
-		
-		System.out.println("nuevo p con dp: " + p);
-		
-		DetalhePedido dpSaved = detalhePedidoRepository.save(dp);
-		System.out.println(" dpSaved "+dpSaved);
 
-		System.out.println(" pedido ");
-		System.out.println(pedidoService.getPedidos());
-		p = pedidoRepository.getById(u0);
-		System.out.println(" pedido u0: " + p.getEstado()+ " ");
 		
-		assertTrue(pedidoService.getPedidos().size() > 0);
+		p.setEstado(EstadoPedido.CONCLUIDO.etiqueta);
+		Optional<Pedido> op = pedidoRepository.findById(u0);
+		p=op.get();
+		System.out.println(" pedido u0: " + p.getUUID() + " "+  p.getEstado());
+		dp.setPedido(p);
+		DetalhePedido dpSaved = detalhePedidoRepository.save(dp);
+
+//		p = pedidoRepository.save(p);
+		
+		System.out.println(" dpSaved "+dpSaved);
+		
+		System.out.println("   u0: " + u0);
+
+		System.out.println(" pedido u0: " + p.getEstado());
+		
+		List<DetalhePedido> l = detalhePedidoRepository.findByPedido(p);
+		System.out.println("nuevo p con Detalles: " +  l );
+		assertTrue(l.size() > 0);
+//		System.out.println(pedidoRepository.findAll());
+		System.out.println(" pedido ");
+//		assertTrue(pedidoService.getPedidos().size() > 0);
+		
 		//Garantindo que o uuid esta sendo gerado por banco de dados.
 //		assertTrue(p.uuid != u);
 		
 	}
 
-//	@Test
+	@Test
 	void salvarPedido() throws Exception {
 		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
 
 		Pedido pedido = new Pedido();
-		pedido.usuarioid = 5l;
+		pedido.setUsuarioid(5l);
 		UUID u = UUID.fromString("00000000-a324-a123-a123-111111111111");
-		pedido.uuid = u;
-		pedido.estado = EstadoPedido.CONCLUIDO.etiqueta;
+//		pedido.setUUID(u);
+		pedido.setEstado(EstadoPedido.CONCLUIDO.etiqueta); 
 		Pedido p = pedidoService.salvar(pedido);
 		
 		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
 
-		System.out.println(p.uuid != u);
-		System.out.println(" pedido ");
-		System.out.println(pedidoService.getPedidos());
-		System.out.println(" pedido ");
-
+		System.out.println(p.getUUID() != u);
+		System.out.println(" pedido " + p.getUUID());
 		assertTrue(pedidoService.getPedidos().size() > 0);
+		System.out.println(" pedido " + p);
+//		System.out.println("" + pedidoService.getPedidos());
+
 		//Garantindo que o uuid esta sendo gerado por banco de dados.
-		assertTrue(p.uuid != u);
+		assertTrue(p.getUUID() != u);
 
 	}
 

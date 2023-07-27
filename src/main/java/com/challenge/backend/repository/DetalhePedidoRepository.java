@@ -2,6 +2,7 @@ package com.challenge.backend.repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.CrudRepository;
@@ -15,9 +16,7 @@ public interface DetalhePedidoRepository extends CrudRepository<DetalhePedido, L
 
 	List<DetalhePedido> findAll();
 
-/*
-    Optional<Pedido> findById(Long table1Id);
+    Optional<DetalhePedido> findById(Long id);
 
-    List<Pedido> findByPedidoId(Long table1Id);
-*/
+    List<DetalhePedido> findByPedido(Pedido pedido);
 }

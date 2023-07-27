@@ -20,10 +20,20 @@ import java.util.Optional;
 @Repository
 public interface PedidoRepository extends PedidoUUIDRepository<Pedido, UUID> {
 
-//	List<Pedido> findAll();
-	Optional<Pedido> findByUuid(UUID uuid);
-//
-//	Optional<Pedido> findIdByUuid(UUID uuid);
+	List<Pedido> findAll();
+
+	Optional<Pedido> findIdByUuid(UUID uuid);
+	List<Pedido> findByEstado(String estado);
+	List<Pedido> findByUsuarioid(Long usuarioid);
+	
+
+//	@Override
+//	default Optional<Pedido> findById(UUID id) {
+//		
+//		return findRequiredByUuid(id);
+////		return Optional.empty();
+//	}
+
 	/*
 	 * Optional<Pedido> findById(Long table1Id);
 	 * 

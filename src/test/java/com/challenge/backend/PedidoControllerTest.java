@@ -55,14 +55,6 @@ class PedidoControllerTest {
 	void afterLoads() {
 	}
 
-
-	
-	@Test
-	void pedidoProdutos() {
-		log.info("Numero de reguistros PedidoProdutos: " + pedidoController.pedidoProdutos().size());
-		assertTrue(pedidoController.pedidoProdutos().size()==0);
-
-	}
 	
 	
 	@Test
@@ -70,9 +62,8 @@ class PedidoControllerTest {
 		List<Pedido> listaMock = new ArrayList<Pedido>();
 		
 		Pedido pMock = new Pedido();
-		pMock.usuarioid=2l;
-		pMock.uuid=UUID.fromString("00000000-a324-a123-a123-111111111111");
-		pMock.estado = EstadoPedido.PENDIENTE.etiqueta;
+		pMock.setUsuarioid(2l);
+		pMock.setEstado(EstadoPedido.PENDIENTE.etiqueta); 
 		
 		
 		listaMock.add(pMock);

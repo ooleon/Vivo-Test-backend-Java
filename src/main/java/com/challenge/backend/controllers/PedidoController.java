@@ -37,10 +37,6 @@ public class PedidoController {
 	ConsumerRestService consumidorRestService;
 
 
-	@GetMapping("/pedidoProdutos")
-	public List<DetalhePedido> pedidoProdutos() {
-		return this.pedidoService.getPedidoProdutos();
-	}
 	
 	
 	@GetMapping("/pedidos")
