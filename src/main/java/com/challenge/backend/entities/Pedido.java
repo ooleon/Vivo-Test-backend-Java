@@ -44,7 +44,7 @@ public class Pedido {
 	private Long usuarioid;
 	private String estado;
 
-	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido")
 	@JsonIgnore
 	private List<DetalhePedido> detalles = new ArrayList<>();

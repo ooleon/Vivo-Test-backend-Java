@@ -38,9 +38,9 @@ public class DetalhePedido {
 
 	
 
-    @ManyToOne ( fetch = FetchType.EAGER)
+    @ManyToOne ( fetch = FetchType.LAZY)
     @JoinColumn( name = "pedido_id")
-    @JsonIgnore
+//    @JsonIgnore
     public Pedido pedido;
     
     
