@@ -41,9 +41,6 @@ class PedidoServiceSalvadoTest {
 	PedidoService pedidoService;
 
 	@Autowired
-	PedidoRepository pedidoRepository;
-	
-	@Autowired
 	DetalhePedidoService detalhePedidoService;
 	
 	@Autowired
@@ -80,11 +77,11 @@ class PedidoServiceSalvadoTest {
 		dp.setProdutoid(109);
 		dp.setQuantidade(10);
 		Pedido p = pedidoService.save(pedido);
+		System.out.println(" p.uu id: " + p.getUUID());
 		
 		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
 		
 
-		System.out.println(" p.uu id: " + p.getUUID());
 //		dp.setPedido(p);
 
 		List<DetalhePedido> ldp = new ArrayList<>();
@@ -93,11 +90,11 @@ class PedidoServiceSalvadoTest {
 
 		
 		p.setEstado(EstadoPedido.CONCLUIDO.etiqueta);
-		Optional<Pedido> op = pedidoRepository.findById(u0);
+		Optional<Pedido> op = pedidoService.findById(u0);
 		p=op.get();
-		System.out.println(" pedido u0: " + p.getUUID() + " "+  p.getEstado());
 		dp.setPedido(p);
 		DetalhePedido dpSaved = detalhePedidoService.save(dp);
+		System.out.println("	pedido u0: " + p.getUUID() + " "+  p.getEstado());
 
 //		p = pedidoRepository.save(p);
 		
@@ -108,9 +105,10 @@ class PedidoServiceSalvadoTest {
 		System.out.println(" pedido u0: " + p.getEstado());
 		
 		List<DetalhePedido> l = detalhePedidoService.findByPedido(p);
+		System.out.println("		x" );
 		System.out.println("nuevo p con Detalles: " +  l );
 		assertTrue(l.size() > 0);
-		List<Pedido> lp = pedidoRepository.findAll();
+		List<Pedido> lp = pedidoService.findAll();
 		System.out.println(" for lp ");
 		for (Pedido pedido_t: lp) {
 			pedido_t.setDetalles(detalhePedidoService.findByPedido(pedido_t));
