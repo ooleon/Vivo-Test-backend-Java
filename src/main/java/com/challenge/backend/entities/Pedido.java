@@ -32,12 +32,15 @@ public class Pedido {
 	@Id
 //    @GeneratedValue(generator="system-uuid")
 //    @GenericGenerator(name="system-uuid", strategy = "uuid")
+
+	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true)
 	@UuidGenerator
 	public UUID uuid;
 
-	public BigInteger usuarioid;
+	
+	public Long usuarioid;
 	public String estado;
 
 /*	
@@ -50,7 +53,8 @@ public class Pedido {
 	public List<Pedido> clientList;
 */
 	
-	@OneToMany(mappedBy = "pedido")
+//	@OneToMany(mappedBy = "pedidoid_fk")
+	@OneToMany
 	private List<DetalhePedido> detalles;
 
 	
@@ -63,11 +67,11 @@ public class Pedido {
 		this.uuid = uUID;
 	}
 
-	public BigInteger getUsuarioid() {
+	public Long getUsuarioid() {
 		return usuarioid;
 	}
 
-	public void setUsuarioid(BigInteger usuarioid) {
+	public void setUsuarioid(Long usuarioid) {
 		this.usuarioid = usuarioid;
 	}
 
@@ -89,16 +93,13 @@ public class Pedido {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("Pedido [uuid=");
-		builder.append(uuid);
-		builder.append(", usuarioid=");
-		builder.append(usuarioid);
-		builder.append(", estado=");
-		builder.append(estado);
-		builder.append("]");
-		return builder.toString();
+		return "{uuid=" + uuid +
+				", usuarioid=" + usuarioid + 
+				", estado=" + estado + 
+				", detalles=" + detalles +
+				"}";
 	}
+
 
 
 

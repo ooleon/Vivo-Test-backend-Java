@@ -64,12 +64,13 @@ class PedidoControllerTest {
 
 	}
 	
+	
 	@Test
 	void pedido() {
 		List<Pedido> listaMock = new ArrayList<Pedido>();
 		
 		Pedido pMock = new Pedido();
-		pMock.usuarioid=BigInteger.valueOf(2);
+		pMock.usuarioid=2l;
 		pMock.uuid=UUID.fromString("00000000-a324-a123-a123-111111111111");
 		pMock.estado = EstadoPedido.PENDIENTE.etiqueta;
 		

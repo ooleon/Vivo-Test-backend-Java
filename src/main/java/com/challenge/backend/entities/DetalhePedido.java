@@ -21,13 +21,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import java.util.*;
 
+
 @Entity
-@Table(name = "pedido_produtos", schema = "public")
+@Table(name = "pedido_detalhe", schema = "public")
 public class DetalhePedido {
-	
+
 	@Id
-//    @GeneratedValue(strategy=SEQUENCE, generator="pedido_artigo_id_seq")
     @GeneratedValue(strategy = GenerationType.AUTO)
+//    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id", unique = true)
     private Long id;
 
@@ -35,8 +36,8 @@ public class DetalhePedido {
     
 
 	
-    private UUID pedidoid_fk;
 
+//    @Column(name = "id", unique = true)
     @ManyToOne
     private Pedido pedido;
 
@@ -46,12 +47,17 @@ public class DetalhePedido {
     private double quantidade;
     private double precounidade;
 
-	public UUID getPedidoid_fk() {
-		return pedidoid_fk;
+/*
+    private UUID pedido_id;
+
+	public UUID getPedido_id() {
+		return pedido_id;
 	}
-	public void setPedidoid_fk(UUID pedidoid_fk) {
-		this.pedidoid_fk = pedidoid_fk;
+	public void setPedido_id(UUID pedido_id) {
+		this.pedido_id = pedido_id;
 	}
+*/
+
 	public Pedido getPedido() {
 		return pedido;
 	}
@@ -81,18 +87,9 @@ public class DetalhePedido {
 	}
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("DetalhePedido [id=");
-		builder.append(id);
-		builder.append(", produtoid=");
-		builder.append(produtoid);
-		builder.append(", quantidade=");
-		builder.append(quantidade);
-		builder.append(", precounidade=");
-		builder.append(precounidade);
-		builder.append("]");
-		return builder.toString();
+		return "{produtoid=" + produtoid + ", quantidade=" + quantidade + ", precounidade=" + precounidade + "}";
 	}
+
 
 
 

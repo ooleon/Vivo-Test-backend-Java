@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 import org.springframework.web.client.RestTemplate;
 import com.challenge.backend.entities.*;
-import com.challenge.backend.repository.PedidoProdutosRepository;
+import com.challenge.backend.repository.DetalhePedidoRepository;
 import com.challenge.backend.repository.PedidoRepository;
 import com.challenge.backend.repository.PedidoUUIDRepository;
 import com.challenge.backend.util.EstadoPedido;
@@ -34,7 +34,7 @@ public class PedidoService {
 	PedidoRepository pedidoRepository;
 
 	@Autowired
-	PedidoProdutosRepository pedidoProdutosRepository;
+	DetalhePedidoRepository pedidoProdutosRepository;
 
 	public List<DetalhePedido> getPedidoProdutos() {
 		

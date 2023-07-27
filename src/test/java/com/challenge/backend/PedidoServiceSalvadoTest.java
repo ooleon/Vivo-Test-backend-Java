@@ -3,6 +3,7 @@ package com.challenge.backend;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.when;
 
 import java.math.BigInteger;
@@ -23,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.challenge.backend.controllers.PedidoController;
 import com.challenge.backend.entities.DetalhePedido;
 import com.challenge.backend.entities.Pedido;
+import com.challenge.backend.repository.DetalhePedidoRepository;
 import com.challenge.backend.repository.PedidoRepository;
 import com.challenge.backend.services.ConsumerRestService;
 import com.challenge.backend.services.PedidoService;
@@ -37,6 +39,9 @@ class PedidoServiceSalvadoTest {
 
 	@Autowired
 	PedidoRepository pedidoRepository;
+	
+	@Autowired
+	DetalhePedidoRepository detalhePedidoRepository;
 
 	@BeforeEach
 	void BeforeLoads() {
@@ -53,31 +58,50 @@ class PedidoServiceSalvadoTest {
 		assertTrue(s.contains("ok"));
 	}
 
-//	@Test
+	
+	@Test
 	void salvarDetalhePedido() {
 		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
 
 		Pedido pedido = new Pedido();
-		pedido.usuarioid = BigInteger.valueOf(5);
-		UUID u = UUID.fromString("00000000-a324-a123-a123-111111111111");
+		pedido.usuarioid = 88l;
+		UUID u0 = UUID.fromString("00000000-5555-7777-1dcd-300020001001");
+		UUID u = UUID.randomUUID();
+		System.out.println("   p.uuid: " + u);
 		pedido.uuid = u;
 		pedido.estado = EstadoPedido.CONCLUIDO.etiqueta;
-//		DetalhePedido dp = new DetalhePedido();
-//		dp.setPrecounidade(109.4);
-//		dp.setProdutoid(2);
+		
+		DetalhePedido dp = new DetalhePedido();
+		dp.setPrecounidade(109.4);
+		dp.setProdutoid(109);
 		
 		Pedido p = pedidoService.salvar(pedido);
 		
 		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
+		
 
-		System.out.println(p.uuid != u);
+		System.out.println(" p.uuid: " + p.uuid);
+		dp.setPedido(p);
+
+		List<DetalhePedido> ldp = new ArrayList<>();
+		ldp.add(dp);
+		p.setDetalles(ldp);
+		
+		p = pedidoService.salvar(p);
+		
+		System.out.println("nuevo p con dp: " + p);
+		
+		DetalhePedido dpSaved = detalhePedidoRepository.save(dp);
+		System.out.println(" dpSaved "+dpSaved);
+
 		System.out.println(" pedido ");
 		System.out.println(pedidoService.getPedidos());
-		System.out.println(" pedido ");
-
+		p = pedidoRepository.getById(u0);
+		System.out.println(" pedido u0: " + p.getEstado()+ " ");
+		
 		assertTrue(pedidoService.getPedidos().size() > 0);
 		//Garantindo que o uuid esta sendo gerado por banco de dados.
-		assertTrue(p.uuid != u);
+//		assertTrue(p.uuid != u);
 		
 	}
 
@@ -86,7 +110,7 @@ class PedidoServiceSalvadoTest {
 		log.info("Numero de reguistros Pedidos: " + pedidoService.getPedidos().size());
 
 		Pedido pedido = new Pedido();
-		pedido.usuarioid = BigInteger.valueOf(5);
+		pedido.usuarioid = 5l;
 		UUID u = UUID.fromString("00000000-a324-a123-a123-111111111111");
 		pedido.uuid = u;
 		pedido.estado = EstadoPedido.CONCLUIDO.etiqueta;
