@@ -63,8 +63,6 @@ public class DetalhePedido {
 		this.onLoad();
 		return valorParcial;
 	}
-	/*
-*/
     
 /*
     private UUID pedido_id;

@@ -8,9 +8,11 @@ delete from public.pedido_detalhe;
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
 	VALUES('00000000-5555-7777-1dcd-300020001001'::uuid, 1, 2, 10);
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
-	VALUES('00000000-5555-7777-1dcd-300020002201'::uuid, 2, 2, 10);
+	VALUES('00000000-5555-7777-1dcd-300020001001'::uuid, 3, 2, 30);
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
 	VALUES('00000000-5555-7777-1dcd-300020002201'::uuid, 1, 2, 10);
+INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
+	VALUES('00000000-5555-7777-1dcd-300020002201'::uuid, 2, 2, 20);
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
 	VALUES('00000000-a324-a123-a123-111111111111'::uuid, 1, 2, 10);
 

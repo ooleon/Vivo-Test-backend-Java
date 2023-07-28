@@ -58,18 +58,6 @@ class PedidoServiceSalvadoTest {
 	void contextLoads() {
 	}
 
-//	@Test
-	void testtest() throws Exception {
-		System.out.println("Salvar: ");
-		System.out.println("Numero de registros Detalhe Pedidos: " + pedidoService.findAll().size());
-
-		Pedido pedido = pedidoService.findAll().get(0);
-		System.out.println(pedido);
-		System.out.println("	pedido: ");
-		
-
-		
-	}
 
 	@Test
 	void salvarDetalhePedido() throws Exception {
@@ -87,7 +75,7 @@ class PedidoServiceSalvadoTest {
 		Pedido p = op.orElseThrow();
 		if (p.getDetalles() != null) {
 			List<DetalhePedido> ldp0 = new ArrayList<>();
-			ldp0=p.getDetalles();
+			ldp0 = p.getDetalles();
 			ldp.addAll(ldp0);
 		}
 		p.setDetalles(ldp);
@@ -102,45 +90,40 @@ class PedidoServiceSalvadoTest {
 		List<DetalhePedido> l = detalhePedidoService.findByPedido(p);
 		log.info("\n	Novo Detalhes de Pedido: " + l);
 		assertTrue(l.size() > 0);
-		boolean inList=false; 
+		boolean inList = false;
 		for (DetalhePedido detalhePedido : l) {
-			if (detalhePedido.getId().equals(dpSaved.getId()) ) {
+			if (detalhePedido.getId().equals(dpSaved.getId())) {
 				inList = true;
 			}
 		}
 		assertTrue(inList);
 	}
-	
+
 	@Test
 	void calcularValorParcial() throws Exception {
-
-	List<Pedido> lp = pedidoService.findAll();
-	System.out.println(" for lp ");
-	for (Pedido pedido_t : lp) {
-		pedido_t.setDetalles(detalhePedidoService.findByPedido(pedido_t));
-//		System.out.println(pedido_t);
+		List<Pedido> lp = pedidoService.findAll();
+		System.out.println(lp);
+		for (Pedido pedido : lp) {
+			if (pedido.getDetalles() != null && pedido.getDetalles().size() > 0) {
+				assertTrue(pedido.getPrecoTotal() > 0);
+			}
+		}
 	}
-	System.out.println(lp);
-	}
 
-//	@Test
-	void salvarPedido() throws Exception {
-		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
+	@Test
+	void generarUUIDBanco() throws Exception {
+		String sUuid = "00000000-a324-a123-a123-111111111111";
+		log.info("UUID novo: " + sUuid);
 
 		Pedido pedido = new Pedido();
 		pedido.setUsuarioid(5l);
-		UUID u = UUID.fromString("00000000-a324-a123-a123-111111111111");
-//		pedido.setUUID(u);
+		UUID u = UUID.fromString(sUuid);
 		pedido.setEstado(EstadoPedido.CONCLUIDO.etiqueta);
 		Pedido p = pedidoService.save(pedido);
+		log.info("UUID gerado: " + p.getUUID());
 
-		log.info("Numero de reguistros Pedidos: " + pedidoService.findAll().size());
-
-		System.out.println(p.getUUID() != u);
-		System.out.println(" pedido " + p.getUUID());
+		log.info("\n	Pedido: " + p);
 		assertTrue(pedidoService.findAll().size() > 0);
-		System.out.println(" pedido " + p);
-//		System.out.println("" + pedidoService.getPedidos());
 
 		// Garantindo que o uuid esta sendo gerado por banco de dados.
 		assertTrue(p.getUUID() != u);

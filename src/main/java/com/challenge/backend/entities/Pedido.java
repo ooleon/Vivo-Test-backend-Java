@@ -15,6 +15,8 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 */
 import jakarta.persistence.*;
+
+import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -25,6 +27,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "pedido", schema = "public")
@@ -34,13 +37,11 @@ public class Pedido {
 //    @GeneratedValue(generator="system-uuid")
 //    @GenericGenerator(name="system-uuid", strategy = "uuid")
 
-	
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true)
 	@UuidGenerator
 	private UUID uuid;
 
-	
 	private Long usuarioid;
 	private String estado;
 
@@ -49,12 +50,25 @@ public class Pedido {
 	@JsonIgnore
 	private List<DetalhePedido> detalles = new ArrayList<>();
 
-	
-	
+	@Transient
+	private Double precoTotal = 0.0;
+
+	@PostLoad
+	private void onLoad() {
+		if (this.detalles != null && this.detalles.size() > 0) {
+			precoTotal = this.detalles.stream().map(x -> x.getValorParcial())
+					.collect(Collectors.summingDouble(Double::doubleValue));
+		}
+	}
+
+	public Double getPrecoTotal() {
+		this.onLoad();
+		return precoTotal;
+	}
+
 	public UUID getUUID() {
 		return this.uuid;
 	}
-
 
 	public Long getUsuarioid() {
 		return usuarioid;
@@ -80,28 +94,17 @@ public class Pedido {
 		this.detalles = detalles;
 	}
 
-	
 	@Override
 	public String toString() {
 		return asJsonString(this);
 	}
 
 	private static String asJsonString(final Object obj) {
-	    try {
-	        return new ObjectMapper().writeValueAsString(obj);
-	    } catch (Exception e) {
-	        throw new RuntimeException(e);
-	    }
+		try {
+			return new ObjectMapper().writeValueAsString(obj);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 
-
-
-	
-	
-	
-	
-	
-	
-	
-	
 }
