@@ -27,7 +27,7 @@ import com.challenge.backend.util.EstadoPedido;
 @Service
 @Transactional
 public class PedidoService {
-	    private final Logger log = LoggerFactory.getLogger(PedidoService.class);
+	private final Logger log = LoggerFactory.getLogger(PedidoService.class);
 
 	@Autowired
 	Environment env;
@@ -35,25 +35,54 @@ public class PedidoService {
 	@Autowired
 	PedidoRepository pedidoRepository;
 
-	public List<Pedido> findByEstado(EstadoPedido estadoPedido) {		
-		return pedidoRepository.findByEstado(estadoPedido.etiqueta);
+	@Autowired
+	DetalhePedidoRepository detalhePedidoRepository;
+
+	public List<Pedido> findByEstado(EstadoPedido estadoPedido) {
+		return agregarDetalheList(pedidoRepository.findByEstado(estadoPedido.etiqueta));
 	}
 
 	public Optional<Pedido> findById(UUID uuid) {
-		
-		return pedidoRepository.findById(uuid);
+		Optional<Pedido> op = agregarDetalheOptional(uuid);
+		return op;
 	}
 
-	public Optional<Pedido> findByUuid(UUID uuid) {
-		return pedidoRepository.findByUuid(uuid);
+	public Optional<Pedido> agregarDetalheOptional(UUID uuid) {
+		Optional<Pedido> op = pedidoRepository.findByUuid(uuid);
+		if (op.isPresent()) {
+			op.of(this.agregarDetalhe(op.get()));
+		}
+		return op;
+	}
+
+	public void delete(Pedido pedido) {
+		pedidoRepository.delete(pedido);
 	}
 
 	public Pedido save(Pedido pedido) {
 		return pedidoRepository.save(pedido);
 	}
 
-	public List<Pedido> findAll() {		
+	public List<Pedido> findAll() {
 		return pedidoRepository.findAll();
+	}
+
+	//
+	public Pedido agregarDetalhe(Pedido pedido) {
+		List<DetalhePedido> ldp = new ArrayList<>();
+		ldp = detalhePedidoRepository.findByPedido(pedido);
+		
+		pedido.setDetalles(ldp);
+		return pedido;
+	}
+
+	public List<Pedido> agregarDetalheList(List<Pedido> listPedido) {
+		List<Pedido> lp = new ArrayList();
+
+		for (Pedido pedido : listPedido) {
+			lp.add(agregarDetalhe(pedido));
+		}
+		return lp;
 	}
 
 }

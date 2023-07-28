@@ -22,34 +22,50 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.util.*;
 
-
 @Entity
 @Table(name = "pedido_detalhe", schema = "public")
 public class DetalhePedido {
 
 	@Id
 //  @GeneratedValue(strategy = GenerationType.AUTO)
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
-    private Long id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "id", unique = true)
+	private Long id;
 
-    public Long getId() { return id; }
-    
+	public Long getId() {
+		return id;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "pedido_id")
+	@JsonIgnore
+	public Pedido pedido;
+
+	private int produtoid;
+
+	private int quantidade;
+
+	private double precounidade;
 
 	
+	
+	
+	
+    @Transient
+    private Double valorParcial;
 
-    @ManyToOne ( fetch = FetchType.LAZY)
-    @JoinColumn( name = "pedido_id")
-    @JsonIgnore
-    public Pedido pedido;
-    
-    
-    private int produtoid;
-    
-    private int quantidade;
-    
-    private double precounidade;
+    @PostLoad
+    private void onLoad() {
+        this.valorParcial = this.quantidade * this.precounidade;
+    }
 
+	public Double getValorParcial() {
+		this.onLoad();
+		return valorParcial;
+	}
+	/*
+*/
+    
 /*
     private UUID pedido_id;
 
@@ -62,58 +78,55 @@ public class DetalhePedido {
 */
 
 
+	
+	
+	
+	
+	
+	
 	public Pedido getPedido() {
 		return pedido;
 	}
+
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
-	
+
 	public int getProdutoid() {
 		return produtoid;
 	}
+
 	public void setProdutoid(int produtoid) {
 		this.produtoid = produtoid;
 	}
+
 	public int getQuantidade() {
 		return quantidade;
 	}
+
 	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
+
 	public double getPrecounidade() {
 		return precounidade;
 	}
+
 	public void setPrecounidade(double precounidade) {
 		this.precounidade = precounidade;
 	}
 
 	@Override
 	public String toString() {
-	/*
-		return "{" + 
-				"produtoid=" + produtoid + 				
-				", quantidade=" + quantidade +
-				", precounidade=" + precounidade +
-				"}";
-		*/
 		return asJsonString(this);
 	}
 
-	public static String asJsonString(final Object obj) {
-	    try {
-	        return new ObjectMapper().writeValueAsString(obj);
-	    } catch (Exception e) {
-	        throw new RuntimeException(e);
-	    }
+	private static String asJsonString(final Object obj) {
+		try {
+			return new ObjectMapper().writeValueAsString(obj);
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
-
-
-	
-
-
-
-
-	
 
 }

@@ -1,12 +1,12 @@
 
 delete from public.pedido;
-INSERT INTO public.pedido (id, usuarioid) VALUES('11111111-7222-7333-7444-111111111111'::uuid, 4);
-INSERT INTO public.pedido (id, usuarioid) VALUES('00000000-5555-7777-1dcd-300020002201'::uuid, 9);
-INSERT INTO public.pedido (id, usuarioid) VALUES('00000000-5555-7777-1dcd-300020001001'::uuid, 9);
-INSERT INTO public.pedido (id, usuarioid) VALUES('00000000-a324-a123-a123-111111111111'::uuid, 9);
+INSERT INTO public.pedido (id, usuarioid) VALUES('00000000-5555-7777-1dcd-300020001001'::uuid, 1);
+INSERT INTO public.pedido (id, usuarioid) VALUES('00000000-5555-7777-1dcd-300020002201'::uuid, 3);
+INSERT INTO public.pedido (id, usuarioid) VALUES('00000000-a324-a123-a123-111111111111'::uuid, 7);
+INSERT INTO public.pedido (id, usuarioid) VALUES('11111111-7222-7333-7444-111111111111'::uuid, 9);
 delete from public.pedido_detalhe;
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
-	VALUES('00000000-5555-7777-1dcd-300020001000'::uuid, 1, 2, 10);
+	VALUES('00000000-5555-7777-1dcd-300020001001'::uuid, 1, 2, 10);
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
 	VALUES('00000000-5555-7777-1dcd-300020002201'::uuid, 2, 2, 10);
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)

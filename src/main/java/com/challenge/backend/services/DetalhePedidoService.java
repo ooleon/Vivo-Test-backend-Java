@@ -26,7 +26,7 @@ import com.challenge.backend.util.EstadoPedido;
 @Service
 @Transactional
 public class DetalhePedidoService {
-	    private final Logger log = LoggerFactory.getLogger(DetalhePedidoService.class);
+	private final Logger log = LoggerFactory.getLogger(DetalhePedidoService.class);
 
 	@Autowired
 	Environment env;
@@ -34,13 +34,10 @@ public class DetalhePedidoService {
 	@Autowired
 	DetalhePedidoRepository detalhePedidoRepository;
 
-
-
 	public List<DetalhePedido> findByPedido(Pedido pedido) {
-		
+
 		return detalhePedidoRepository.findByPedido(pedido);
 	}
-
 
 	public void delete(DetalhePedido detalhePedido) {
 		detalhePedidoRepository.delete(detalhePedido);
@@ -51,11 +48,8 @@ public class DetalhePedidoService {
 	}
 
 	public List<DetalhePedido> getAll() {
-		
+
 		return detalhePedidoRepository.findAll();
 	}
 
-
-	
-	
 }
