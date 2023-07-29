@@ -25,14 +25,15 @@ public class ConsumerRestService {
 	@Autowired
 	Environment env;
 
+	
 
 	public List<UserPojo> getUsersList() {
 
 		return this.userAwsGetAsEntityList();
 	}
 
-	public HashMap getProductsList() {
-		HashMap<String, Double> hm = new HashMap<String, Double>();
+	public HashMap<Integer, Double> getProductsList() {
+		HashMap<Integer, Double> hm = new HashMap<Integer, Double>();
 		
 		for (ProductsPojo p : this.productsAwsGetAsEntityList()) {
 			hm.put(p.id(), p.price());
@@ -88,7 +89,7 @@ public class ConsumerRestService {
 
 			double price = Double.parseDouble(u.get("price") == null ? "0" : u.get("price").toString());
 
-			listAws.add(new ProductsPojo(u.get("id").toString(), u.get("title").toString() , price));
+			listAws.add(new ProductsPojo(Integer.valueOf(u.get("id").toString()) , price));
 
 		});
 		return listAws;

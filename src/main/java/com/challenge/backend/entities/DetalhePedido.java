@@ -41,11 +41,11 @@ public class DetalhePedido {
 	@JsonIgnore
 	public Pedido pedido;
 
-	private int produtoid;
+	private int produtoid=0;
 
-	private int quantidade;
+	private int quantidade=0;
 
-	private double precounidade;
+	private double precounidade = 0.0;
 
 	
 	

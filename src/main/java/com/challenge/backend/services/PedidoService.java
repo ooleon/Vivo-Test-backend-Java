@@ -36,7 +36,29 @@ public class PedidoService {
 	PedidoRepository pedidoRepository;
 
 	@Autowired
+	ConsumerRestService consumidorRestService;
+
+	@Autowired
 	DetalhePedidoRepository detalhePedidoRepository;
+
+	public Pedido generarPedidoDesdeDTO(PedidoDTO pedidoDTO) {
+
+		Pedido pedido = new Pedido();
+		pedido.setUsuarioid(pedidoDTO.getUsuarioid());
+		Integer idProduto = pedidoDTO.getProdutoid();
+		Double preco = consumidorRestService.getProductsList().get(idProduto);
+		ProductsPojo productsPojo = new ProductsPojo(idProduto, preco);
+
+		pedido = this.save(pedido);
+
+		pedido = this.agregarDetalhe(pedido);
+		
+		
+		pedido = this.save(pedido);
+
+		// TODO pedidoService de PedidoDTO a Pedido (con detalle).
+		return pedido;
+	}
 
 	public List<Pedido> findByEstado(EstadoPedido estadoPedido) {
 		return agregarDetalheList(pedidoRepository.findByEstado(estadoPedido.etiqueta));
@@ -71,8 +93,14 @@ public class PedidoService {
 	public Pedido agregarDetalhe(Pedido pedido) {
 		List<DetalhePedido> ldp = new ArrayList<>();
 		ldp = detalhePedidoRepository.findByPedido(pedido);
-		
-		pedido.setDetalles(ldp);
+
+		// TODO recalcular produto repetido
+		if (pedido.getDetalhes() != null) {
+			List<DetalhePedido> ldp1 = pedido.getDetalhes();
+			ldp1.addAll(ldp);
+		}
+
+		pedido.setDetalhes(ldp);
 		return pedido;
 	}
 

@@ -20,7 +20,6 @@ import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
-import com.challenge.backend.util.EstadoPedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -30,46 +29,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Entity
-@Table(name = "pedido", schema = "public")
-public class Pedido {
-
-	@Id
-//    @GeneratedValue(generator="system-uuid")
-//    @GenericGenerator(name="system-uuid", strategy = "uuid")
-
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "id", unique = true)
-	@UuidGenerator
-	private UUID uuid;
+public class PedidoDTO {
 
 	private Long usuarioid;
-	private String estado = EstadoPedido.PENDIENTE.etiqueta;
+	private Integer produtoid;
 
-	@OneToMany(fetch = FetchType.LAZY)
-	@JoinColumn(name = "pedido_id")
-//	@JsonIgnore
-	private List<DetalhePedido> detalhes = new ArrayList<>();
-
-	@Transient
-	private Double precoTotal = 0.0;
-
-	@PostLoad
-	private void onLoad() {
-		if (this.detalhes != null && this.detalhes.size() > 0) {
-			precoTotal = this.detalhes.stream().map(x -> x.getValorParcial())
-					.collect(Collectors.summingDouble(Double::doubleValue));
-		}
-	}
-
-	public Double getPrecoTotal() {
-		this.onLoad();
-		return precoTotal;
-	}
-
-	public UUID getUUID() {
-		return this.uuid;
-	}
 
 	public Long getUsuarioid() {
 		return usuarioid;
@@ -79,20 +43,12 @@ public class Pedido {
 		this.usuarioid = usuarioid;
 	}
 
-	public String getEstado() {
-		return estado;
+	public Integer getProdutoid() {
+		return produtoid;
 	}
 
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-	public List<DetalhePedido> getDetalhes() {
-		return detalhes;
-	}
-
-	public void setDetalhes(List<DetalhePedido> detalhes) {
-		this.detalhes = detalhes;
+	public void setProdutoid(Integer produtoid) {
+		this.produtoid = produtoid;
 	}
 
 	@Override

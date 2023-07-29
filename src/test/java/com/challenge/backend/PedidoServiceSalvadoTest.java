@@ -73,12 +73,12 @@ class PedidoServiceSalvadoTest {
 		UUID u0 = UUID.fromString("00000000-5555-7777-1dcd-300020001001");
 		Optional<Pedido> op = pedidoService.findById(u0);
 		Pedido p = op.orElseThrow();
-		if (p.getDetalles() != null) {
+		if (p.getDetalhes() != null) {
 			List<DetalhePedido> ldp0 = new ArrayList<>();
-			ldp0 = p.getDetalles();
+			ldp0 = p.getDetalhes();
 			ldp.addAll(ldp0);
 		}
-		p.setDetalles(ldp);
+		p.setDetalhes(ldp);
 		dp.setPedido(p);
 
 		DetalhePedido dpSaved = detalhePedidoService.save(dp);
@@ -104,7 +104,7 @@ class PedidoServiceSalvadoTest {
 		List<Pedido> lp = pedidoService.findAll();
 		System.out.println(lp);
 		for (Pedido pedido : lp) {
-			if (pedido.getDetalles() != null && pedido.getDetalles().size() > 0) {
+			if (pedido.getDetalhes() != null && pedido.getDetalhes().size() > 0) {
 				assertTrue(pedido.getPrecoTotal() > 0);
 			}
 		}
