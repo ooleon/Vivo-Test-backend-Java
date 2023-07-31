@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -32,7 +33,7 @@ import java.util.stream.Collectors;
 public class PedidoDTO {
 
 	private Long usuarioid;
-	private Integer produtoid;
+	private List<Integer> produtoid;
 
 
 	public Long getUsuarioid() {
@@ -43,11 +44,27 @@ public class PedidoDTO {
 		this.usuarioid = usuarioid;
 	}
 
-	public Integer getProdutoid() {
+	
+	
+
+	public PedidoDTO(Long usuarioid, List<Integer> produtoid) {
+		super();
+		this.usuarioid = usuarioid;
+		this.produtoid = produtoid;
+	}
+
+	public PedidoDTO(Long usuarioid, Integer ... produtoid ) {
+		super();
+		
+		this.usuarioid = usuarioid;
+		this.produtoid = Arrays.asList(produtoid);
+	}
+
+	public List<Integer> getProdutoid() {
 		return produtoid;
 	}
 
-	public void setProdutoid(Integer produtoid) {
+	public void setProdutoid(List<Integer> produtoid) {
 		this.produtoid = produtoid;
 	}
 

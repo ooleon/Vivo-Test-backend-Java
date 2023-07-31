@@ -1,4 +1,4 @@
-package com.challenge.backend;
+package com.challenge.backend.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;

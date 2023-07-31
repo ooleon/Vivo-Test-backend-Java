@@ -52,4 +52,32 @@ public class DetalhePedidoService {
 		return detalhePedidoRepository.findAll();
 	}
 
+	public Pedido agregarDetalhe(Pedido pedido) {
+		List<DetalhePedido> ldp = new ArrayList<>();
+//		ldp = detalhePedidoService.findByPedido(pedido);		
+//		ldp=detalhePedidoService.recalcularDetalhePedido(ldp);
+
+		ldp = this.findByPedido(pedido);		
+		ldp=this.recalcularDetalhePedido(ldp);
+
+		// TODO recalcular produto repetido
+		if (pedido.getDetalhes() != null) {
+			List<DetalhePedido> ldp1 = pedido.getDetalhes();
+			ldp1.addAll(ldp);
+		}
+
+		pedido.setDetalhes(ldp);
+		return pedido;
+	}
+
+	public List<DetalhePedido> recalcularDetalhePedido(List<DetalhePedido> listDetalhePedido) {
+		// TODO Auto-generated method stub
+		/*
+		 1. validar lista no null
+		 2. 
+		 
+		 */
+		return null;
+	}
+
 }

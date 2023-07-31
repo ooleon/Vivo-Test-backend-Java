@@ -38,20 +38,25 @@ public class PedidoService {
 	@Autowired
 	ConsumerRestService consumidorRestService;
 
+//	@Autowired
+//	DetalhePedidoRepository detalhePedidoRepository;
+
 	@Autowired
-	DetalhePedidoRepository detalhePedidoRepository;
+	DetalhePedidoService detalhePedidoService;
+
 
 	public Pedido generarPedidoDesdeDTO(PedidoDTO pedidoDTO) {
 
 		Pedido pedido = new Pedido();
 		pedido.setUsuarioid(pedidoDTO.getUsuarioid());
-		Integer idProduto = pedidoDTO.getProdutoid();
-		Double preco = consumidorRestService.getProductsList().get(idProduto);
-		ProductsPojo productsPojo = new ProductsPojo(idProduto, preco);
+		List<Integer> listIdProduto = pedidoDTO.getProdutoid();
+
+//		Double preco = consumidorRestService.getProductsList().get(idProduto);
+//		ProductsPojo productsPojo = new ProductsPojo(idProduto, preco);
 
 		pedido = this.save(pedido);
 
-		pedido = this.agregarDetalhe(pedido);
+		pedido = detalhePedidoService.agregarDetalhe(pedido);
 		
 		
 		pedido = this.save(pedido);
@@ -72,7 +77,7 @@ public class PedidoService {
 	public Optional<Pedido> agregarDetalheOptional(UUID uuid) {
 		Optional<Pedido> op = pedidoRepository.findByUuid(uuid);
 		if (op.isPresent()) {
-			op.of(this.agregarDetalhe(op.get()));
+			op.of(detalhePedidoService.agregarDetalhe(op.get()));
 		}
 		return op;
 	}
@@ -90,25 +95,12 @@ public class PedidoService {
 	}
 
 	//
-	public Pedido agregarDetalhe(Pedido pedido) {
-		List<DetalhePedido> ldp = new ArrayList<>();
-		ldp = detalhePedidoRepository.findByPedido(pedido);
-
-		// TODO recalcular produto repetido
-		if (pedido.getDetalhes() != null) {
-			List<DetalhePedido> ldp1 = pedido.getDetalhes();
-			ldp1.addAll(ldp);
-		}
-
-		pedido.setDetalhes(ldp);
-		return pedido;
-	}
 
 	public List<Pedido> agregarDetalheList(List<Pedido> listPedido) {
 		List<Pedido> lp = new ArrayList();
 
 		for (Pedido pedido : listPedido) {
-			lp.add(agregarDetalhe(pedido));
+			lp.add(detalhePedidoService.agregarDetalhe(pedido));
 		}
 		return lp;
 	}
