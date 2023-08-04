@@ -20,9 +20,11 @@ import org.antlr.v4.runtime.atn.SemanticContext.AND;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.UuidGenerator;
 
+import com.challenge.backend.util.EstadoPedido;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,10 +33,31 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class PedidoDTO {
+//	private static final long serialVersionUID = 4442583257355549384L;
 
 	private Long usuarioid;
-	private List<Integer> produtoid;
+//	private String estado; //EstadoPedido.PENDIENTE.etiqueta
+	private EstadoPedido estado; //EstadoPedido.PENDIENTE.etiqueta
 
+	private List<ProductsPojo> produtos;
+
+
+	public List getProdutos() {
+		return produtos;
+	}
+
+	public void setProdutos(List produtos) {
+		this.produtos = produtos;
+	}
+
+	
+
+	/*
+	public PedidoDTO(Long usuarioid, ProductsPojo produtos) {
+		super();
+		this.usuarioid = usuarioid;
+		this.produtos = produtos;
+	}
 
 	public Long getUsuarioid() {
 		return usuarioid;
@@ -44,29 +67,15 @@ public class PedidoDTO {
 		this.usuarioid = usuarioid;
 	}
 
-	
-	
-
-	public PedidoDTO(Long usuarioid, List<Integer> produtoid) {
-		super();
-		this.usuarioid = usuarioid;
-		this.produtoid = produtoid;
+	public ProductsPojo getProdutos() {
+		return produtos;
 	}
 
-	public PedidoDTO(Long usuarioid, Integer ... produtoid ) {
-		super();
-		
-		this.usuarioid = usuarioid;
-		this.produtoid = Arrays.asList(produtoid);
+	public void setProdutos(ProductsPojo produtos) {
+		this.produtos = produtos;
 	}
+	*/
 
-	public List<Integer> getProdutoid() {
-		return produtoid;
-	}
-
-	public void setProdutoid(List<Integer> produtoid) {
-		this.produtoid = produtoid;
-	}
 
 	@Override
 	public String toString() {
@@ -81,4 +90,40 @@ public class PedidoDTO {
 		}
 	}
 
+	public Long getUsuarioid() {
+		return usuarioid;
+	}
+
+	public void setUsuarioid(Long usuarioid) {
+		this.usuarioid = usuarioid;
+	}
+
+	public PedidoDTO(Long usuarioid, List listProdutoId) {
+		super();
+		this.usuarioid = usuarioid;
+		this.produtos = listProdutoId;
+	}
+
+	public EstadoPedido getEstado() {
+		return estado;
+	}
+
+	public void setEstado(EstadoPedido estado) {
+		this.estado = estado;
+	}
+
+	/*
+	public String getEstado() {
+		return estado;
+	}
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+	*/
+
+
+
+
+	
 }

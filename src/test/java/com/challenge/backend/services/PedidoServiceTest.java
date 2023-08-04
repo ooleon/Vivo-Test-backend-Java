@@ -28,6 +28,7 @@ import com.challenge.backend.controllers.PedidoController;
 import com.challenge.backend.entities.DetalhePedido;
 import com.challenge.backend.entities.Pedido;
 import com.challenge.backend.entities.PedidoDTO;
+import com.challenge.backend.entities.ProductsPojo;
 import com.challenge.backend.repository.PedidoRepository;
 import com.challenge.backend.services.ConsumerRestService;
 import com.challenge.backend.services.PedidoService;
@@ -75,11 +76,13 @@ class PedidoServiceTest {
 	
 	@Test
 	void procesarPedidodeDTO() {
-		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  new Integer(1),new Integer(2) );
+//		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  new ProductsPojo(1, 10.0),new ProductsPojo(2, 20.0) );
+		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  (List) new ProductsPojo(1, 10.0) );
 		Pedido pedidoMock = new Pedido();
 		pedidoMock = new MyMockPedido(); pedidoMock.setUsuarioid(5l);
 		DetalhePedido dp1 = new DetalhePedido();	dp1.setProdutoid(1);	dp1.setPrecounidade(10l);	dp1.setQuantidade(10); 
-		DetalhePedido dp2 = new DetalhePedido();	dp2.setProdutoid(1);	dp1.setPrecounidade(20l);	dp1.setQuantidade(20); 		
+		DetalhePedido dp2 = new DetalhePedido();	dp2.setProdutoid(2);	dp2.setPrecounidade(20l);	dp2.setQuantidade(20); 		
+		DetalhePedido dp3 = new DetalhePedido();	dp3.setProdutoid(2);	dp3.setPrecounidade(20l);	dp3.setQuantidade(20); 		
 		
 		List<DetalhePedido> listaDetalhePedidoMock = Arrays.asList(dp1,dp2);
 		
@@ -91,19 +94,16 @@ class PedidoServiceTest {
 		when(detalhePedidoService.findByPedido(any())).thenReturn(listaDetalhePedidoMock);
 		when(detalhePedidoService.recalcularDetalhePedido(any())).thenReturn(listaDetalhePedidoMock);
 		when(detalhePedidoService.agregarDetalhe(any())).thenReturn(pedidoMock);
-//		when(listaDetalhePedidoMock.addAll(any()) ).thenReturn(true);
 
 		pedidoMock.setDetalhes(listaDetalhePedidoMock);
 
-//		System.out.println(pedidoMock);
 		
 		Pedido pedido = pedidoService.generarPedidoDesdeDTO(pedidoDTOMock);
 		System.out.println(pedido);
 		
-		Double d = pedido.getPrecoTotal();
+		Double dPrecoTotal = pedido.getPrecoTotal();
+		System.out.println(dPrecoTotal);
 
-//		assertTrue(d != null);
-//		assertTrue(!d.equals(0.0));
 	}
 
 //	@Test

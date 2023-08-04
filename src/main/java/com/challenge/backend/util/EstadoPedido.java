@@ -7,8 +7,8 @@ public enum EstadoPedido {
 	
     public final String etiqueta;
 
-    private EstadoPedido(String etiqueta) {
-        this.etiqueta = etiqueta;
+    private EstadoPedido(String etiqueta) {    	
+        this.etiqueta =  etiqueta.toUpperCase();
     }
     
     @Override

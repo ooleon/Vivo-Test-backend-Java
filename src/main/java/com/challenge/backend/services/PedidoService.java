@@ -44,12 +44,14 @@ public class PedidoService {
 	@Autowired
 	DetalhePedidoService detalhePedidoService;
 
+	@Autowired
+	DetalhePedidoCalcularService detalhePedidoCalcularService;
 
 	public Pedido generarPedidoDesdeDTO(PedidoDTO pedidoDTO) {
 
 		Pedido pedido = new Pedido();
 		pedido.setUsuarioid(pedidoDTO.getUsuarioid());
-		List<Integer> listIdProduto = pedidoDTO.getProdutoid();
+//		List<ProductsPojo> listProdutoId = pedidoDTO.getProdutos();
 
 //		Double preco = consumidorRestService.getProductsList().get(idProduto);
 //		ProductsPojo productsPojo = new ProductsPojo(idProduto, preco);

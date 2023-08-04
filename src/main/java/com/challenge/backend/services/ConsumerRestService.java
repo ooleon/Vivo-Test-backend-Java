@@ -36,7 +36,7 @@ public class ConsumerRestService {
 		HashMap<Integer, Double> hm = new HashMap<Integer, Double>();
 		
 		for (ProductsPojo p : this.productsAwsGetAsEntityList()) {
-			hm.put(p.id(), p.price());
+			hm.put(p.getId(), p.getPreco());
 		}
 		return hm;
 	}
@@ -73,7 +73,7 @@ public class ConsumerRestService {
 	public ProductsPojo getProductsRest(RestTemplate restTemplate) throws Exception {
 		ProductsPojo p;
 		ProductsPojo productsTemp = restTemplate.getForObject(getUrl_Users(), ProductsPojo.class);
-		System.out.println("productsTemp.id " + productsTemp.id());
+		System.out.println("productsTemp.id " + productsTemp.getId());
 		log.info(productsTemp.toString());
 		return productsTemp;
 

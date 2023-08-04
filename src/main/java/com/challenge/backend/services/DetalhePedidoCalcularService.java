@@ -3,6 +3,7 @@ package com.challenge.backend.services;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 import org.hibernate.type.descriptor.java.UUIDJavaType;
@@ -25,33 +26,39 @@ import com.challenge.backend.util.EstadoPedido;
 @PropertySource("classpath:/application.properties")
 @Service
 @Transactional
-public class DetalhePedidoService {
-	private final Logger log = LoggerFactory.getLogger(DetalhePedidoService.class);
+public class DetalhePedidoCalcularService {
+	private final Logger log = LoggerFactory.getLogger(DetalhePedidoCalcularService.class);
 
 	@Autowired
 	Environment env;
 
 	@Autowired
-	DetalhePedidoRepository detalhePedidoRepository;
+	PedidoRepository pedidoRepository;
 
-	
-	
-	public List<DetalhePedido> findByPedido(Pedido pedido) {
+	@Autowired
+	ConsumerRestService consumidorRestService;
 
-		return detalhePedidoRepository.findByPedido(pedido);
-	}
+//	@Autowired
+//	DetalhePedidoRepository detalhePedidoRepository;
 
-	public void delete(DetalhePedido detalhePedido) {
-		detalhePedidoRepository.delete(detalhePedido);
-	}
+	@Autowired
+	DetalhePedidoService detalhePedidoService;
 
-	public DetalhePedido save(DetalhePedido detalhePedido) {
-		return detalhePedidoRepository.save(detalhePedido);
-	}
 
-	public List<DetalhePedido> getAll() {
+	public Pedido generarPedidoDesdeDTO(PedidoDTO pedidoDTO) {
 
-		return detalhePedidoRepository.findAll();
+		Pedido pedido = new Pedido();
+		pedido.setUsuarioid(pedidoDTO.getUsuarioid());
+
+//		pedido = this.save(pedido);
+
+//		pedido = detalhePedidoService.agregarDetalhe(pedido);
+		
+		
+//		pedido = this.save(pedido);
+
+		// TODO pedidoService de PedidoDTO a Pedido (con detalle).
+		return pedido;
 	}
 
 	public Pedido agregarDetalhe(Pedido pedido) {
@@ -59,7 +66,7 @@ public class DetalhePedidoService {
 //		ldp = detalhePedidoService.findByPedido(pedido);		
 //		ldp=detalhePedidoService.recalcularDetalhePedido(ldp);
 
-		ldp = this.findByPedido(pedido);		
+		ldp = detalhePedidoService.findByPedido(pedido);		
 		ldp=this.recalcularDetalhePedido(ldp);
 
 		// TODO recalcular produto repetido
@@ -72,24 +79,6 @@ public class DetalhePedidoService {
 		return pedido;
 	}
 
-	public List<DetalhePedido> agregarDetalhe_1(Pedido pedido) {
-		List<DetalhePedido> ldp = new ArrayList<>();
-//		ldp = detalhePedidoService.findByPedido(pedido);		
-//		ldp=detalhePedidoService.recalcularDetalhePedido(ldp);
-
-		ldp = this.findByPedido(pedido);		
-		ldp=this.recalcularDetalhePedido(ldp);
-
-		// TODO recalcular produto repetido
-		if (pedido.getDetalhes() != null) {
-			List<DetalhePedido> ldp1 = pedido.getDetalhes();
-			ldp1.addAll(ldp);
-		}
-
-//		pedido.setDetalhes(ldp);
-		return ldp;
-	}
-
 	public List<DetalhePedido> recalcularDetalhePedido(List<DetalhePedido> listDetalhePedido) {
 		// TODO Auto-generated method stub
 		/*
@@ -97,7 +86,8 @@ public class DetalhePedidoService {
 		 2. 
 		 
 		 */
-		return listDetalhePedido;
+		return null;
 	}
 
+	
 }
