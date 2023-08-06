@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.hibernate.internal.util.CharSequenceHelper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.codec.CharSequenceEncoder;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -20,6 +22,7 @@ import com.challenge.backend.entities.ProductsPojo;
 import com.challenge.backend.entities.UserPojo;
 import com.challenge.backend.services.ConsumerRestService;
 import com.challenge.backend.services.PedidoService;
+import com.challenge.backend.util.EstadoPedido;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -48,20 +51,24 @@ public class PedidoController {
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 	        produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseStatus(HttpStatus.OK)
-	public Pedido adicionarPedido(@RequestBody PedidoDTO pedidoDTO) {
-
+	public Pedido gestionaPedido(@RequestBody PedidoDTO pedidoDTO) {
 		Pedido pedido=new Pedido();
 		
-		try {
+		if (pedidoDTO.getUuid() == null) {
 			pedido = pedidoService.generarPedidoDesdeDTO(pedidoDTO);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		}else {
+			if(pedidoDTO.getEstado() != null && pedidoDTO.getEstado().toString().contains(EstadoPedido.CONCLUIDO.etiqueta)) {
+//				pedidoDTO.setEstado(EstadoPedido.valueOf(pedidoDTO.getEstado().toString().toUpperCase()));
+//				pedidoDTO.setEstado(EstadoPedido.CONCLUIDO);
+				
+				pedido = pedidoService.concluirPedido(pedidoDTO);
+			} else {
+				//adicionar itens ao pedido
+				pedido = pedidoService.atualizarPedidoDesdeDTO(pedidoDTO);
+			}
+			
 		}
-		
-		//TODO pedidoService de PedidoDTO a Pedido (con detalle).
-		
-//		Pedido p2= pedidoService.agregarDetalhe(p);
+				
 		return pedido;
 	}
 	

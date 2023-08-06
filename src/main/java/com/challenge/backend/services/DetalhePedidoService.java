@@ -34,8 +34,6 @@ public class DetalhePedidoService {
 	@Autowired
 	DetalhePedidoRepository detalhePedidoRepository;
 
-	
-	
 	public List<DetalhePedido> findByPedido(Pedido pedido) {
 
 		return detalhePedidoRepository.findByPedido(pedido);
@@ -59,8 +57,8 @@ public class DetalhePedidoService {
 //		ldp = detalhePedidoService.findByPedido(pedido);		
 //		ldp=detalhePedidoService.recalcularDetalhePedido(ldp);
 
-		ldp = this.findByPedido(pedido);		
-		ldp=this.recalcularDetalhePedido(ldp);
+		ldp = this.findByPedido(pedido);
+		ldp = this.recalcularDetalhePedido(ldp);
 
 		// TODO recalcular produto repetido
 		if (pedido.getDetalhes() != null) {
@@ -77,8 +75,8 @@ public class DetalhePedidoService {
 //		ldp = detalhePedidoService.findByPedido(pedido);		
 //		ldp=detalhePedidoService.recalcularDetalhePedido(ldp);
 
-		ldp = this.findByPedido(pedido);		
-		ldp=this.recalcularDetalhePedido(ldp);
+		ldp = this.findByPedido(pedido);
+		ldp = this.recalcularDetalhePedido(ldp);
 
 		// TODO recalcular produto repetido
 		if (pedido.getDetalhes() != null) {
@@ -93,11 +91,71 @@ public class DetalhePedidoService {
 	public List<DetalhePedido> recalcularDetalhePedido(List<DetalhePedido> listDetalhePedido) {
 		// TODO Auto-generated method stub
 		/*
-		 1. validar lista no null
-		 2. 
-		 
+		 * 1. validar lista no null 2.
+		 * 
 		 */
 		return listDetalhePedido;
+	}
+
+	public Pedido agregarDetalhe(Pedido pedido, PedidoDTO pedidoDTO, HashMap<Integer, Double> hashMapIdPreco) {
+		// pedido esta salvado.
+		// buscar lista de produtos por pedidoDTO
+
+		HashMap<Integer, Integer> hmIdCantidad;
+		if (pedidoDTO.getProdutos() != null) {
+			hmIdCantidad = contarCantidadProdutos(pedidoDTO);
+			System.out.println("\nhmIdCantidad " + hmIdCantidad + "\n");
+			// generar DetallesPedido por productos bucle por pedidoDTO
+			List<DetalhePedido> ldp  = 
+			 generarDetalhePedido(pedido, hmIdCantidad, hashMapIdPreco);
+			
+			// agregar DetallesPedido al pedido
+			pedido.setDetalhes(ldp);
+		}
+		return pedido;
+	}
+	private List<DetalhePedido> generarDetalhePedido(Pedido pedido, HashMap<Integer, Integer> hmIdCantidad,
+			HashMap<Integer, Double> hashMapIdPreco) {
+		// generar DetallesPedido por productos bucle por pedidoDTO
+		
+		List<DetalhePedido> listDetalhePedido = new ArrayList<DetalhePedido>(); 
+		hmIdCantidad.forEach((key, cantidad) ->
+		{
+			DetalhePedido detalhesPedido = new DetalhePedido();
+			detalhesPedido.setPedido(pedido);
+			detalhesPedido.setProdutoid(key);
+			detalhesPedido.setQuantidade(cantidad);
+			detalhesPedido.setPrecounidade(hashMapIdPreco.get(key));
+			detalhePedidoRepository.save(detalhesPedido);
+			listDetalhePedido.add(detalhesPedido );
+		}
+		 );
+		
+		
+		return listDetalhePedido;
+	}
+
+	private HashMap<Integer, Integer> contarCantidadProdutos(PedidoDTO pedidoDTO) {
+		// contar produtos na lista
+		List<ProductsPojo> listProdutoId = pedidoDTO.getProdutos();
+		HashMap<Integer, Integer> hmIdCantidad = new HashMap<Integer, Integer>();
+		Integer i = 1;
+
+		for (ProductsPojo o : listProdutoId) {
+			Integer key = ((ProductsPojo) o).getId();
+			if (hmIdCantidad.get(key) == null) {
+				i = 1;
+
+			} else {
+				i = hmIdCantidad.get(key);
+				i++;
+
+			}
+			hmIdCantidad.put(key, i);
+		}
+
+		return hmIdCantidad;
+
 	}
 
 }

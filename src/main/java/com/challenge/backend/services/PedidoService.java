@@ -47,20 +47,33 @@ public class PedidoService {
 	@Autowired
 	DetalhePedidoCalcularService detalhePedidoCalcularService;
 
+	public Pedido atualizarPedidoDesdeDTO(PedidoDTO pedidoDTO) {
+		Optional<Pedido> op = this.findById(pedidoDTO.getUuid());
+		Pedido pedido=null;
+		if (op.isPresent()) {
+			pedido = op.get();
+		}
+
+		return pedido;
+	}
+
 	public Pedido generarPedidoDesdeDTO(PedidoDTO pedidoDTO) {
+		// pedidoService de PedidoDTO a Pedido (con detalle).
 
 		Pedido pedido = new Pedido();
 		pedido.setUsuarioid(pedidoDTO.getUsuarioid());
-//		List<ProductsPojo> listProdutoId = pedidoDTO.getProdutos();
 
 //		Double preco = consumidorRestService.getProductsList().get(idProduto);
 //		ProductsPojo productsPojo = new ProductsPojo(idProduto, preco);
 
 		pedido = this.save(pedido);
 
-		pedido = detalhePedidoService.agregarDetalhe(pedido);
+		// buscar lista de produtos por pedidoDTO
+		HashMap<Integer, Double> hm = consumidorRestService.getProductsList();
 		
-		
+		pedido = detalhePedidoService.agregarDetalhe(pedido, pedidoDTO, hm);
+		System.out.println(pedido);
+
 		pedido = this.save(pedido);
 
 		// TODO pedidoService de PedidoDTO a Pedido (con detalle).
@@ -105,6 +118,18 @@ public class PedidoService {
 			lp.add(detalhePedidoService.agregarDetalhe(pedido));
 		}
 		return lp;
+	}
+
+	public Pedido concluirPedido(PedidoDTO pedidoDTO) {
+		Pedido pedido=null;
+		Optional<Pedido> op = this.findById(pedidoDTO.getUuid());
+		if (op.isPresent()) {
+			pedido = op.get();
+			pedido.setEstado(EstadoPedido.CONCLUIDO.etiqueta);
+			pedidoRepository.save(pedido);
+		}
+
+		return pedido;
 	}
 
 }

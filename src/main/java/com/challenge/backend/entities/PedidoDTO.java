@@ -35,6 +35,8 @@ import java.util.stream.Collectors;
 public class PedidoDTO {
 //	private static final long serialVersionUID = 4442583257355549384L;
 
+	private UUID uuid;
+	
 	private Long usuarioid;
 //	private String estado; //EstadoPedido.PENDIENTE.etiqueta
 	private EstadoPedido estado; //EstadoPedido.PENDIENTE.etiqueta
@@ -42,14 +44,22 @@ public class PedidoDTO {
 	private List<ProductsPojo> produtos;
 
 
-	public List getProdutos() {
+	public List<ProductsPojo> getProdutos() {
 		return produtos;
 	}
 
-	public void setProdutos(List produtos) {
+	public void setProdutos(List<ProductsPojo> produtos) {
 		this.produtos = produtos;
 	}
 
+
+	public UUID getUuid() {
+		return uuid;
+	}
+
+	public void setUuid(UUID uuid) {
+		this.uuid = uuid;
+	}
 	
 
 	/*
@@ -77,6 +87,9 @@ public class PedidoDTO {
 	*/
 
 
+
+
+
 	@Override
 	public String toString() {
 		return asJsonString(this);
@@ -98,7 +111,7 @@ public class PedidoDTO {
 		this.usuarioid = usuarioid;
 	}
 
-	public PedidoDTO(Long usuarioid, List listProdutoId) {
+	public PedidoDTO(Long usuarioid, List<ProductsPojo> listProdutoId) {
 		super();
 		this.usuarioid = usuarioid;
 		this.produtos = listProdutoId;
