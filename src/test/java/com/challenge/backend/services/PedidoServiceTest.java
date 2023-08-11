@@ -69,14 +69,14 @@ class PedidoServiceTest {
 		UUID UUID;
 
 		public MyMockPedido() {
-			
+		
+		// for testing purposes this string must match with those inside the data.sql file.
 		this.UUID=UUID.fromString("00000000-5555-7777-1dcd-300020001001");
 		}
 	}
 	
 	@Test
 	void procesarPedidodeDTO() {
-//		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  new ProductsPojo(1, 10.0),new ProductsPojo(2, 20.0) );
 		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  (List) new ProductsPojo(1, 10.0) );
 		Pedido pedidoMock = new Pedido();
 		pedidoMock = new MyMockPedido(); pedidoMock.setUsuarioid(5l);
@@ -106,7 +106,7 @@ class PedidoServiceTest {
 
 	}
 
-//	@Test
+	@Test
 	void listarPedido() {
 		List<Pedido> listaMock = new ArrayList<Pedido>();
 		Pedido pMock = new Pedido();

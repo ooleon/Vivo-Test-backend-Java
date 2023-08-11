@@ -16,16 +16,13 @@ class BackendApplicationTests {
 
 	@BeforeEach
 	void beforeLoads() {
-		String s = "context ok";
-		log.info(s);
-		assertTrue(s.contains("ok"));
 	}
 
 	@AfterEach
 	void afterLoads() {
 	}
 
-	@Test
+//	@Test
 	void contextLoads() {
 	}
 

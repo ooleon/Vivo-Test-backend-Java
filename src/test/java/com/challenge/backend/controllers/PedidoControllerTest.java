@@ -46,9 +46,6 @@ class PedidoControllerTest {
 
 	@BeforeEach
 	void contextLoads() {
-		String s = "context ok";
-		log.info(s);
-		assertTrue(s.contains("ok"));
 	}
 
 	@AfterEach

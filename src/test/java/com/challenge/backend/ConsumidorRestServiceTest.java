@@ -3,6 +3,11 @@ package com.challenge.backend;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.Reader;
+
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.AfterEach;
@@ -15,6 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.challenge.backend.services.ConsumerRestService;
 import com.challenge.backend.services.PedidoService;
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Dynamic;
 
 @SpringBootTest
 class ConsumidorRestServiceTest {
@@ -28,16 +34,13 @@ class ConsumidorRestServiceTest {
 
 	@BeforeEach
 	void contextLoads() {
-		String s = "context ok";
-		log.info(s);
-		assertTrue(s.contains("ok"));
 	}
 
 	@AfterEach
 	void afterLoads() {
 	}
-
-
+		
+		
 	@Test
 	void usuariosConsumidor() {
 	assertTrue(consumidorRestService.getUsersList().size()>0); 	

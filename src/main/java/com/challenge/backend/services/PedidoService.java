@@ -38,9 +38,6 @@ public class PedidoService {
 	@Autowired
 	ConsumerRestService consumidorRestService;
 
-//	@Autowired
-//	DetalhePedidoRepository detalhePedidoRepository;
-
 	@Autowired
 	DetalhePedidoService detalhePedidoService;
 
@@ -63,9 +60,6 @@ public class PedidoService {
 		Pedido pedido = new Pedido();
 		pedido.setUsuarioid(pedidoDTO.getUsuarioid());
 
-//		Double preco = consumidorRestService.getProductsList().get(idProduto);
-//		ProductsPojo productsPojo = new ProductsPojo(idProduto, preco);
-
 		pedido = this.save(pedido);
 
 		// buscar lista de produtos por pedidoDTO
@@ -76,7 +70,6 @@ public class PedidoService {
 
 		pedido = this.save(pedido);
 
-		// TODO pedidoService de PedidoDTO a Pedido (con detalle).
 		return pedido;
 	}
 

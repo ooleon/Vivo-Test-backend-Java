@@ -58,8 +58,6 @@ public class PedidoController {
 			pedido = pedidoService.generarPedidoDesdeDTO(pedidoDTO);
 		}else {
 			if(pedidoDTO.getEstado() != null && pedidoDTO.getEstado().toString().contains(EstadoPedido.CONCLUIDO.etiqueta)) {
-//				pedidoDTO.setEstado(EstadoPedido.valueOf(pedidoDTO.getEstado().toString().toUpperCase()));
-//				pedidoDTO.setEstado(EstadoPedido.CONCLUIDO);
 				
 				pedido = pedidoService.concluirPedido(pedidoDTO);
 			} else {
