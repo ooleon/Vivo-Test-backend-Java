@@ -50,7 +50,7 @@ public class PedidoController {
 			method = RequestMethod.POST, 
 			consumes = MediaType.APPLICATION_JSON_VALUE, 
 	        produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseStatus(HttpStatus.OK)
+	@ResponseStatus(HttpStatus.CREATED)
 	public Pedido gestionaPedido(@RequestBody PedidoDTO pedidoDTO) {
 		Pedido pedido=new Pedido();
 		
@@ -90,6 +90,7 @@ public class PedidoController {
 	}
 	
 	@GetMapping("/produtos")
+	@ResponseStatus(HttpStatus.OK)
 	public HashMap<Integer, Double> products() {
 		return this.consumidorRestService.getProductsList();
 		/*
@@ -101,6 +102,7 @@ public class PedidoController {
 	}
 
 	@GetMapping("/listadeusuarios")
+	@ResponseStatus(HttpStatus.OK)
 	public List<UserPojo> pedidoInicial() {
 
 		return this.consumidorRestService.getUsersList();
