@@ -2,14 +2,14 @@
 
 /*
 
-
+*/
 -- public.pedido definition
 
 -- Drop table
 
 -- DROP TABLE public.pedido;
 
-CREATE TABLE public.pedido (
+CREATE TABLE IF NOT EXISTS public.pedido (
 	id uuid NOT NULL DEFAULT gen_random_uuid(),
 	usuarioid int4 NULL,
 	estado varchar(255) NULL DEFAULT 'PENDIENTE'::character varying,
@@ -24,7 +24,7 @@ CREATE TABLE public.pedido (
 
 -- DROP TABLE public.pedido_detalhe;
 
-CREATE TABLE public.pedido_detalhe (
+CREATE TABLE IF NOT EXISTS public.pedido_detalhe (
 	id serial4 NOT NULL,
 	pedido_id uuid NULL,
 	produtoid int4 NULL,
@@ -33,4 +33,4 @@ CREATE TABLE public.pedido_detalhe (
 	CONSTRAINT pedido_detalhe_pk PRIMARY KEY (id)
 );
 
-*/
+

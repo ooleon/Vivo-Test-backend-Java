@@ -77,7 +77,10 @@ class PedidoServiceTest {
 	
 	@Test
 	void procesarPedidodeDTO() {
-		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  (List) new ProductsPojo(1, 10.0) );
+//		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  (List) new ProductsPojo(1, 10.0) );
+		List lp = new ArrayList<ProductsPojo>();
+		lp.add(new ProductsPojo(1, 10.0));
+		PedidoDTO pedidoDTOMock = new PedidoDTO(11l,  lp  );
 		Pedido pedidoMock = new Pedido();
 		pedidoMock = new MyMockPedido(); pedidoMock.setUsuarioid(5l);
 		DetalhePedido dp1 = new DetalhePedido();	dp1.setProdutoid(1);	dp1.setPrecounidade(10l);	dp1.setQuantidade(10); 

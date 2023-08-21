@@ -77,7 +77,12 @@ public class PedidoController {
 		return this.pedidoService.findById(u);
 	}
 	
-
+	@GetMapping("/")
+	@ResponseStatus(HttpStatus.OK)
+	public List<Pedido> raisPedidos() {
+		return this.pedidos();
+	}
+	
 	@GetMapping("/pedidos")
 	@ResponseStatus(HttpStatus.OK)
 	public List<Pedido> pedidos() {
