@@ -1,7 +1,8 @@
-version: '3'
+version: '3.9'
 
 services:
     postgres:
+        container_name: postgres15
         image: postgres:15.2
         environment:
             - POSTGRES_USER=postgres
@@ -9,3 +10,17 @@ services:
             - POSTGRES_PASSWORD=postgres
         ports:
             - "5432:5432"
+    backend:
+        container_name: backend
+        image: ooleon/vivo-test-backend:1
+        ports:
+            - "8080:8080"
+        volumes:
+            - postgres-data:/var/lib/postgresql/data
+      #- mongo-data:/data/db
+      #- mysql:/var/lib/mysql
+
+volumes:
+  postgres-data:
+  #mongo-data:
+  #mysql:
