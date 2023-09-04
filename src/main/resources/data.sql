@@ -16,8 +16,6 @@ INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidad
 INSERT INTO public.pedido_detalhe (pedido_id, produtoid, quantidade, precounidade)
 	VALUES('00000000-a324-a123-a123-111111111111'::uuid, 1, 2, 10);
 
-
-
 /*
 INSERT INTO public.pedido (usuarioid) VALUES  (1);
 INSERT INTO public.pedido (usuarioid) VALUES  (2);
